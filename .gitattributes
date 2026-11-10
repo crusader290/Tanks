@@ -1,0 +1,3 @@
+*.bat text eol=crlf
+*.swf binary
+*.png binary

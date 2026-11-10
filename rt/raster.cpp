@@ -300,7 +300,7 @@ static plutovg_font_face_t* deviceFace(const FontDef* f) {
     static std::mutex mu; static std::map<int, plutovg_font_face_t*> cache;   // key: sans/serif/mono x bold x italic
     std::string n; for (char c : f->name) n += (char)tolower((unsigned char)c);
     int family = (n.find("courier") != std::string::npos || n.find("mono") != std::string::npos || n == "_typewriter") ? 2
-               : (n.find("times") != std::string::npos || n.find("serif") != std::string::npos && n.find("sans") == std::string::npos) ? 1 : 0;
+               : (n.find("times") != std::string::npos || (n.find("serif") != std::string::npos && n.find("sans") == std::string::npos)) ? 1 : 0;
     int key = family * 4 + (f->bold ? 1 : 0) + (f->italic ? 2 : 0);
     std::lock_guard<std::mutex> lk(mu);
     auto it = cache.find(key); if (it != cache.end()) return it->second;

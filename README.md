@@ -24,7 +24,22 @@ rt/ (AVM1 semantics, display list,      ▼
 * Shapes, morph shapes, JPEG bitmaps, fonts, text and MP3 sounds are read from the SWF when the program starts,
   so the SWF has to sit next to the executable (the build copies it there) or be passed as the first argument.
 
-## Building (Windows, MSYS2 MinGW64)
+## Building (Windows)
+
+The quickest way is to double-click `build.bat`, or run it from a command prompt:
+
+```bat
+build.bat           :: install missing dependencies, build, test, package
+build.bat clean     :: same, from a fresh build directory
+build.bat update    :: also run a full MSYS2 update first
+```
+
+It installs MSYS2 with `winget` if it is missing (set `MSYS2_ROOT` if yours is not in `C:\msys64`). It then
+installs the MinGW64 packages `gcc`, `cmake`, `ninja`, `sdl3`, `zlib` and `python` with `pacman`, builds a
+Release `tanks.exe`, runs a 300-frame headless test, and writes the release to `dist\Tanks\` and
+`dist\Tanks-windows-x64.zip`.
+
+### Building by hand (MSYS2 MinGW64)
 
 Requires `mingw-w64-x86_64-{gcc,cmake,ninja,sdl3,zlib}` and Python 3.
 

@@ -266,7 +266,6 @@ static void mix(void*, Uint8* stream, int len) {
 // device that was the default when the game started is opened by name and kept; when it goes away, or the default
 // changes to something that isn't a controller (headphones plugged in...), the game moves to the new default.
 static std::string g_devName;   // "" = SDL's default device
-static double g_devCheckAt[2] = {-1, -1};
 // ---- SDL3 output: a stream on the default playback device; SDL asks for data and the mixer fills it
 static void SDLCALL streamCallback(void*, SDL_AudioStream* st, int additional, int) {
     if (additional <= 0) return;
