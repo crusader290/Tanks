@@ -1,0 +1,26 @@
+THIRD-PARTY LICENSES
+====================
+IsaacRecomp (https://github.com/whylurking/IsaacRecomp) — MIT license (see LICENSE-IsaacRecomp.txt).
+  rt/ and tools/recomp/ are forked from its runtime and generator. Modified for this project: SWF5 clip events
+  (onClipEvent), duplicateMovieClip/CloneSprite, startDrag/stopDrag, GetURL2, Flash 5 coercions (undefined -> 0 / ""),
+  SDL3 audio, device-font text, HTML text fields, input text fields, and removal of the Isaac-specific loader,
+  renderer, mods and patches. Its gen/ and patch folders (code translated from that game) are NOT used here.
+
+SDL3 (https://libsdl.org) — zlib license:
+  This software is provided 'as-is', without any express or implied warranty. In no event will the authors be
+  held liable for any damages arising from the use of this software. Permission is granted to anyone to use this
+  software for any purpose, including commercial applications, and to alter it and redistribute it freely,
+  subject to the following restrictions: 1. The origin of this software must not be misrepresented; you must
+  not claim that you wrote the original software. If you use this software in a product, an acknowledgment in
+  the product documentation would be appreciated but is not required. 2. Altered source versions must be
+  plainly marked as such, and must not be misrepresented as being the original software. 3. This notice may
+  not be removed or altered from any source distribution.
+
+PlutoVG (https://github.com/sammycage/plutovg) — MIT license, Copyright (c) 2020-2025 Samuel Ugochukwu.
+  Modified (upstream of this fork): bilinear texture sampling with clamped edges and a "saturate" compositing
+  operator (plutovg-blend.c).
+dr_mp3 (https://github.com/mackron/dr_libs) — public domain (Unlicense) or MIT-0, David Reid.
+stb_image (https://github.com/nothings/stb) — public domain or MIT, Sean Barrett.
+
+The game itself (tanks.swf, included in this repository) belongs to its authors and is not covered by the licenses
+above. The recompiled C++ (build/gen) is generated from it at build time, and its assets are read from it at runtime.
