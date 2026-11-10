@@ -35,6 +35,10 @@ ninja -C build-mingw
 build-mingw/tanks.exe
 ```
 
+On Windows the result is one self-contained `tanks.exe` (SDL3, the C++ runtime, winpthread and zlib are
+linked statically), so it starts from Explorer without MSYS2 on PATH. It only needs `tanks.swf` beside it, and the
+build copies that there. Configure with `-DTANKS_STATIC=OFF` to use the shared `SDL3.dll` instead.
+
 The generator runs as a build step whenever `tanks.swf` or `tools/recomp/*.py` change. Other platforms work the
 same way with a system SDL3 (device fonts are looked up in the usual Linux/macOS font folders).
 

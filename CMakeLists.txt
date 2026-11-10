@@ -61,14 +61,28 @@ add_executable(tanks
   rt/raster.cpp rt/snapshot.cpp rt/platform.cpp)
 target_include_directories(tanks PRIVATE rt third_party)
 target_compile_options(tanks PRIVATE -O2 -fno-strict-aliasing -Wall -Wno-unused-function -Wno-misleading-indentation)
-target_link_libraries(tanks PRIVATE tanksgen plutovg SDL3::SDL3 ZLIB::ZLIB)
+# Windows: one self-contained tanks.exe (static SDL3, libstdc++, libgcc, winpthread, zlib), so it starts from
+# Explorer without MinGW's bin folder on PATH. Elsewhere the shared SDL3 is fine.
+option(TANKS_STATIC "Link SDL3 and the MinGW runtime statically (no DLLs next to tanks.exe)" ${WIN32})
+if(TANKS_STATIC AND TARGET SDL3::SDL3-static)
+  target_link_libraries(tanks PRIVATE tanksgen plutovg SDL3::SDL3-static ZLIB::ZLIB)
+else()
+  target_link_libraries(tanks PRIVATE tanksgen plutovg SDL3::SDL3 ZLIB::ZLIB)
+endif()
 if(WIN32)
-  target_link_options(tanks PRIVATE -static-libgcc -static-libstdc++)
+  if(TANKS_STATIC)
+    target_link_options(tanks PRIVATE -static)
+  else()
+    target_link_options(tanks PRIVATE -static-libgcc -static-libstdc++)
+  endif()
   set_target_properties(tanks PROPERTIES WIN32_EXECUTABLE $<CONFIG:Release>)
 endif()
 
-# copy the SWF and the SDL3 runtime next to the executable
+# copy the SWF (and, for a shared build, the SDL3 DLL) next to the executable
 add_custom_command(TARGET tanks POST_BUILD
-  COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${TANKS_SWF}" "$<TARGET_FILE_DIR:tanks>/tanks.swf"
-  COMMAND "${CMAKE_COMMAND}" -E copy_if_different $<TARGET_RUNTIME_DLLS:tanks> "$<TARGET_FILE_DIR:tanks>"
-  COMMAND_EXPAND_LISTS)
+  COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${TANKS_SWF}" "$<TARGET_FILE_DIR:tanks>/tanks.swf")
+if(NOT TANKS_STATIC)
+  add_custom_command(TARGET tanks POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different $<TARGET_RUNTIME_DLLS:tanks> "$<TARGET_FILE_DIR:tanks>"
+    COMMAND_EXPAND_LISTS)
+endif()
